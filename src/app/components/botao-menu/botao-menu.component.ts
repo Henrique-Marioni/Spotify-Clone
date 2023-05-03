@@ -5,20 +5,21 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
   templateUrl: './botao-menu.component.html',
   styleUrls: ['./botao-menu.component.scss']
 })
-export class BotaoMenuComponent implements OnInit {
+export class BotaoMenuComponent implements OnInit{
+
 
   @Input()
   descricao = '';
 
   @Input()
-  selecionado = false; 
+  selecionado = false;
 
   @Output()
   click = new EventEmitter<void>();
 
-  constructor() { }
+  constructor(){}
 
-  ngOnInit(): void {
+  ngOnInit(): void {    
   }
 
   onClick(){
