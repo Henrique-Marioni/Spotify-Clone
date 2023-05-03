@@ -12,9 +12,11 @@ export function SpotifyUserParaUsuario(user: SpotifyApi.CurrentUsersProfileRespo
 
 
 export function SpotifyPLaylistParaPLaylist(playlist: SpotifyApi.PlaylistObjectSimplified): IPlaylist{
-    return{
+    
+    const imagemUrl = (playlist.images?.length) ? playlist.images.pop()?.url : undefined;
+    return {
         id: playlist.id,
         nome: playlist.name,
-        imagemUrl: playlist.images.pop().url
+        imagemUrl: imagemUrl
     };
 }
