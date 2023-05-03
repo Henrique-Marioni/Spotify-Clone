@@ -1,4 +1,4 @@
-# Spotify Redesign com Angular
+# Redesign Spotify com Angular
 Este é o resultado de um projeto, onde foi criado uma aplicação que consumia a API do Spotify e exibi os dados usando um design próprio, com o intuito total de praticar Angular Cli.
 
 <!-- ## Aprenda comigo como desenvolver essa incrível UI:
