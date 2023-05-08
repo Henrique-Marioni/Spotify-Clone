@@ -26,10 +26,17 @@ export class PlayerService {
     //Causo loop
     this.timerId = setInterval(async() => {
       await this.obterMusicaAtual()
-    },3000)
+    },1500)
   }
 
   definirMusicaAtual(musica: IMusica){
     this.musicaAtual.next(musica);
+  }
+
+  voltarMusica(){
+    this.spotifyService.voltarMusica();
+  }
+  proximaMusica(){
+    this.spotifyService.proximaMusica();    
   }
 }
