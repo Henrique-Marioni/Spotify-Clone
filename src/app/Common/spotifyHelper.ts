@@ -25,7 +25,7 @@ export function SpotifyPLaylistParaPLaylist(playlist: SpotifyApi.PlaylistObjectS
 }
 
 export function SpotifySinglePLaylistParaPLaylist(playlist: SpotifyApi.SinglePlaylistResponse): IPlaylist{
-    if(playlist){
+    if(!playlist){
         return newPlaylist();
     }
 

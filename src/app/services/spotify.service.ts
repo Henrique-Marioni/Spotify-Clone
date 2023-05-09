@@ -104,18 +104,25 @@ export class SpotifyService {
   async proximaMusica(){
     this.spotifyApi.skipToNext();
   }
+  async iniciarMusica(){
+    this.spotifyApi.play();
+  }
+  async pausarMusica(){
+    this.spotifyApi.pause();
+  }
 
   async buscarMusicasPlaylist(playlistId: string, offset = 0, limit = 50){
     const playlistSpotify = await this.spotifyApi.getPlaylist(playlistId);
+    console.log("🚀 ~ playlistSpotify:", playlistSpotify)
 
-    if(!playlistSpotify){
+    if(!playlistSpotify)
       return null;
-    }
-
-
+    
       const playlist = SpotifySinglePLaylistParaPLaylist(playlistSpotify);
+      console.log("🚀 ~ playlist:", playlist)
 
       const musicasSpotify = await this.spotifyApi.getPlaylistTracks(playlistId, {offset, limit})
+      console.log("🚀 ~ musicasSpotify:", musicasSpotify)
 
       playlist.musicas = musicasSpotify.items.map(musica => SpotifyTrackParaMusica(musica.track as SpotifyApi.TrackObjectFull))
 

@@ -5,6 +5,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { faPlay } from '@fortawesome/free-solid-svg-icons';
 import { newMusica } from 'src/app/Common/factories';
 import { IMusica } from 'src/app/Interfaces/IMusica';
+import { PlayerService } from 'src/app/services/player.service';
 
 @Component({
   selector: 'app-lista-musicas',
@@ -21,18 +22,29 @@ export class ListaMusicasComponent implements OnInit, OnDestroy {
   playIcone = faPlay;
 
   subs: Subscription[] = []
+  title: string;
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private spotifyService: SpotifyService
+    private spotifyService: SpotifyService,
+    private playerService: PlayerService
     ) { }
   
   ngOnInit(): void {
     this.obterMusicas();
+    this.obterMusicaAtual();
+
   }
 
   ngOnDestroy(): void {
     this.subs.forEach(sub => sub.unsubscribe())
+  }
+  obterMusicaAtual(){
+    const sub = this.playerService.musicaAtual.subscribe(musica => {
+      this.musicaAtual = musica;
+    });
+
+    this.subs.push(sub);
   }
 
   obterMusicas(){
@@ -56,7 +68,10 @@ export class ListaMusicasComponent implements OnInit, OnDestroy {
 
   async obterDadosPlaylist(playlistId: string){
     const playlistMusicas = await this.spotifyService.buscarMusicasPlaylist(playlistId);
+    console.log("🚀 ~ playlistMusicas:", playlistMusicas)
     this.definirDadosPagina(playlistMusicas.nome, playlistMusicas.imagemUrl, playlistMusicas.musicas)
+    this.title = 'Musicas Playlist: ' + playlistMusicas.nome;
+
   }
 
   async obterDadosArtista(artistaId: string){
@@ -67,6 +82,14 @@ export class ListaMusicasComponent implements OnInit, OnDestroy {
     this.bannerImagemUrl = bannerImage;
     this.bannerTexto = bannerTexto;
     this.musicas = musicas;
+  }
+  obterArtistas(musica: IMusica){
+    return musica.artistas.map(artista => artista.nome).join(', ');
+  }
+
+  async executarMusica(musica: IMusica){
+    await this.spotifyService.executarMusica(musica.id);
+    this.playerService.definirMusicaAtual(musica);
   }
 
 }

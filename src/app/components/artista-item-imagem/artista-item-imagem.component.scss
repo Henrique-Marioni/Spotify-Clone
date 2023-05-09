@@ -2,11 +2,11 @@
 
 .container{
     align-items: center;
-    cursor: pointer
-    padding 5px 0px;
+    cursor: pointer;
+    padding: 5px 0px;
 
     &:hover{
-        background-color: $branco;
+        // background-color: $branco;
     }
 
     img{

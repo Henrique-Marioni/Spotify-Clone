@@ -1,6 +1,6 @@
 import { Subscription } from 'rxjs';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { faStepBackward, faStepForward } from '@fortawesome/free-solid-svg-icons';
+import { faPause, faPlay, faStepBackward, faStepForward } from '@fortawesome/free-solid-svg-icons';
 import { newMusica } from 'src/app/Common/factories';
 import { IMusica } from 'src/app/Interfaces/IMusica';
 import { PlayerService } from 'src/app/services/player.service';
@@ -18,6 +18,7 @@ export class PlayerCardComponent implements OnInit, OnDestroy {
   //Icones
   anteriorIcone = faStepBackward;
   proximoIcone = faStepForward;
+  playPause = faPlay;
 
   constructor(private playerService: PlayerService) { }
   ngOnDestroy(): void {
@@ -37,10 +38,21 @@ export class PlayerCardComponent implements OnInit, OnDestroy {
 
   voltarMusica(){
     this.playerService.voltarMusica();
+    this.playPause = faPause   
   }
   proximaMusica(){
-    this.playerService.proximaMusica();
-    
+    this.playerService.proximaMusica();  
+    this.playPause = faPause   
+  }
+
+  iniciarPausarMusica(){
+    if(this.playPause == faPlay){
+      this.playerService.iniciarMusica();   
+      this.playPause = faPause
+    } else {
+      this.playerService.pausarMusica();   
+      this.playPause = faPlay   
+     }
   }
 
 }

@@ -22,7 +22,7 @@ html, body {
 }
 
 .titulo{
-  color: $cor-primaria;
+  color: #fff;
   display: block;
   font-weight: 700;
 
@@ -50,7 +50,7 @@ html, body {
 }
 
 .card{
-  box-shadow: 0px 0px 15px $preto-transparent-03;
-  background-color: $branco;
+  // box-shadow: 0px 0px 15px $preto-transparent-03;
+  background-color: #2c2b2b;
   border-radius: 10px;
 }
