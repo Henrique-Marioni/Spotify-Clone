@@ -16,4 +16,4 @@ npm i @angular/cli -g
 ```
 
 ## Resultado final:
-<img src="https://github.com/cristianWilliam/Spotify-Angular/blob/master/readme-image/Readme%20Image.png" width="600px"/>
+<img src="https://github.com/Henrique-Marioni/Spotify-Clone/blob/master/readme-image/Readme%20Image.png" width="600px"/>
