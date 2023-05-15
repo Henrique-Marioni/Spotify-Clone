@@ -1,0 +1,15 @@
+<div 
+    class="card p-20 cardArtista" 
+    *ngFor="let artista of topArtista"
+    (click)="irParaPlaylist(artista.id)"
+    >
+    <div class="artista flex">
+        <span class="titulo-bg" >
+            {{artista.nome}}
+        </span>
+    </div>
+    <div class="image"
+    [style.background-image]="'url(' + artista.imagemUrl + ')'">    
+    </div>
+
+</div>

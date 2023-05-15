@@ -17,6 +17,10 @@ import { TopArtistasComponent } from 'src/app/components/top-artistas/top-artist
 import { PlayerCardComponent } from 'src/app/components/player-card/player-card.component';
 import { ListaMusicasComponent } from '../lista-musicas/lista-musicas.component';
 import { BannerComponent } from 'src/app/components/banner/banner.component';
+import { PesquisarComponent } from '../pesquisar/pesquisar.component';
+import { ArtistasComponent } from '../artistas/artistas.component';
+import { ArtistasIconesComponent } from 'src/app/components/artistas-icones/artistas-icones.component';
+import { ListaMusicaArtistaComponent } from '../lista-musica-artista/lista-musica-artista.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +36,11 @@ import { BannerComponent } from 'src/app/components/banner/banner.component';
     ArtistaItemImagemComponent,
     PlayerCardComponent,
     ListaMusicasComponent,
-    BannerComponent
+    BannerComponent,
+    PesquisarComponent,
+    ArtistasComponent,
+    ArtistasIconesComponent,
+    ListaMusicaArtistaComponent
   ],
   imports: [
     CommonModule,

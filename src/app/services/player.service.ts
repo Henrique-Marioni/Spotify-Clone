@@ -14,6 +14,7 @@ export class PlayerService {
 
   constructor(private spotifyService: SpotifyService) {
     this.obterMusicaAtual()
+    // this.statusMusicaAtual()
    }
 
   async obterMusicaAtual(){
@@ -21,17 +22,29 @@ export class PlayerService {
 
    //obtenho a musica
     const musica = await this.spotifyService.obterMusicaAtual()
-    this.definirMusicaAtual(musica);
+    this.definirMusicaAtual(musica)
 
     //Causo loop
     this.timerId = setInterval(async() => {
+     
       await this.obterMusicaAtual()
-    },5000)
+
+    },1000)
   }
+
+  // async statusMusicaAtual(){
+  //   const musicaPLayer = await this.spotifyService.statusMusicaAtual()
+  //   console.log("🚀 ~ musicaPLayer:", musicaPLayer)
+
+  //   //Causo loop
+  //   this.timerId = setInterval(async() => {
+  //     await this.statusMusicaAtual()
+  //   },5000)
+  // }
 
   definirMusicaAtual(musica: IMusica){
     this.musicaAtual.next(musica);
-  }
+  } 
 
   async voltarMusica(){
     await this.spotifyService.voltarMusica();

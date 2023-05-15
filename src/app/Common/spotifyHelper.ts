@@ -37,6 +37,19 @@ export function SpotifySinglePLaylistParaPLaylist(playlist: SpotifyApi.SinglePla
     }
 }
 
+// export function SpotifySinglePLaylistArtista(playlist: SpotifyApi.ArtistsTopTracksResponse): IPlaylist{
+//     if(!playlist){
+//         return newPlaylist();
+//     }
+
+//     return{
+//         id: playlist.id,
+//         nome:playlist.name,
+//         imagemUrl:playlist.images.shift().url,
+//         musicas:[]
+//     }
+// }
+
 export function SpotifyArtistaParaArtista(spotifyArtista: SpotifyApi.ArtistObjectFull): IArtista{
     return{
         id: spotifyArtista.id,
@@ -74,3 +87,7 @@ if(!spotifyTrack){
         tempo: msParaMinutos(spotifyTrack.duration_ms),
     }
 }
+
+// export function SpotifyStatusMusica (spotifyStatus: SpotifyApi.):IMusica{
+    
+//     }

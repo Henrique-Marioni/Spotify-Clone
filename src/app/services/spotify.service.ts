@@ -1,3 +1,4 @@
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { SpotifyConfiguration } from 'src/environments/environment';
 import Spotify from 'spotify-web-api-js';
@@ -7,16 +8,25 @@ import { IPlaylist } from '../Interfaces/IPlaylist';
 import { Router } from '@angular/router';
 import { IArtista } from '../Interfaces/IArtista';
 import { IMusica } from '../Interfaces/IMusica';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SpotifyService {
+  
 
   spotifyApi: Spotify.SpotifyWebApiJs = null;
   usuario: IUsuario;
+  musicaArtista: IArtista;
+  private apiUrl = 'https://api.spotify.com/v1';
+  spotifyService: any;
+  tracks: any;
 
-  constructor(private router: Router) { 
+  constructor(
+    private router: Router,
+    private http: HttpClient
+    ) { 
     this.spotifyApi = new Spotify();
   }
 
@@ -75,12 +85,16 @@ export class SpotifyService {
 
   }
 
+  // async buscarMusicasArtista(offset = 0, limit = 50): Promise<IMusica[]>{
+  //   const musicas = await this.spotifyApi.getArtistTopTracks()
+  //   return musicas.items.map(x => SpotifyTrackParaMusica(x.track));
+  // }
+
   async buscarTopArtistas(offset = 1,limit = 10):Promise<IArtista[]>{
     const artistas = await this.spotifyApi.getMyTopArtists({offset, limit})
-    console.log("🚀 ~ artistas:", artistas)
     return artistas.items.map(SpotifyArtistaParaArtista)
 
-  }
+  }  
 
   async buscarMusicas(offset = 3, limit = 50):Promise<IMusica[]>{
     const musicas = await this.spotifyApi.getMySavedTracks({offset, limit})
@@ -88,14 +102,17 @@ export class SpotifyService {
   }
 
   async executarMusica(musicaId: string){
+    console.log('musica',musicaId)
     await this.spotifyApi.queue(musicaId);
     await this.spotifyApi.skipToNext();
   }
 
   async obterMusicaAtual(): Promise<IMusica>{
     const musicaSpotify = await this.spotifyApi.getMyCurrentPlayingTrack();
-    return SpotifyTrackParaMusica(musicaSpotify.item);  
-  }
+    let resultado = SpotifyTrackParaMusica(musicaSpotify.item); 
+    resultado.isPlay = musicaSpotify.is_playing;
+    return  resultado
+  } 
 
   async voltarMusica(){
     this.spotifyApi.skipToPrevious();
@@ -114,7 +131,6 @@ export class SpotifyService {
   async buscarMusicasPlaylist(playlistId: string, offset = 0, limit = 50){
     const playlistSpotify = await this.spotifyApi.getPlaylist(playlistId);
     console.log("🚀 ~ playlistSpotify:", playlistSpotify)
-
     if(!playlistSpotify)
       return null;
     
@@ -127,6 +143,41 @@ export class SpotifyService {
       playlist.musicas = musicasSpotify.items.map(musica => SpotifyTrackParaMusica(musica.track as SpotifyApi.TrackObjectFull))
 
       return playlist
+  }
+
+  async buscarMusicasArtistas(artistId: string){
+    const artistaSpotify = await this.spotifyApi.getArtist(artistId);
+    const playlistSpotify = await this.spotifyApi.getArtistTopTracks(artistId, 'BR');
+    console.log("🚀 ~ playlistSpotify:", playlistSpotify)
+    if(!playlistSpotify)
+      return null;
+      
+      const artista = SpotifyArtistaParaArtista(artistaSpotify)
+      
+
+      artista.musicas = playlistSpotify.tracks.map(musica => SpotifyTrackParaMusica(musica))
+
+      return artista
+
+  }
+
+  getTopTracksByArtist(artistId: string) {
+    const url = `${this.apiUrl}/artists/${artistId}/top-tracks`;
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${localStorage.getItem('token')};`);
+    const params = new HttpParams().set('market', 'BR'); // Substitua 'US' pelo código do mercado desejado
+
+    return this.http.get<any>(url, { headers, params });
+  }
+
+  pesquisar(query: string) {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${localStorage.getItem('token')};`
+    });
+
+    const url = `${this.apiUrl}/search?q=${query}&type=track`;
+
+    return this.http.get(url, { headers });
+  
   }
 
   logout(){

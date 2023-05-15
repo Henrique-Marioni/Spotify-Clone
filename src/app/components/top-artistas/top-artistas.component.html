@@ -1,8 +1,9 @@
-<span class="titulo-md">Top 5 Artistas</span>
+<span class="titulo-md">Top Artistas</span>
 <app-artista-item-imagem
 *ngFor="let artista of artistas"
 class="mt-1 d-block artistas"
 [imagemSrc]="artista.imagemUrl"
+(click)="irParaPlaylist(artista.id)"
 >
 {{artista.nome}}
     

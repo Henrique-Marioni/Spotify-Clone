@@ -29,12 +29,21 @@ export class PlayerCardComponent implements OnInit, OnDestroy {
     this.obterMusicaTocando()
   }
 
-  obterMusicaTocando(){
+  async obterMusicaTocando(){
     const sub = this.playerService.musicaAtual.subscribe(musica =>{
       this.musica = musica;
+      if(this.musica.isPlay){
+        this.playPause = faPause
+      }else{
+        this.playPause = faPlay
+      }
+
     });
+   
+
     this.subs.push(sub)
   }
+  
 
   voltarMusica(){
     this.playerService.voltarMusica();
@@ -44,7 +53,6 @@ export class PlayerCardComponent implements OnInit, OnDestroy {
     this.playerService.proximaMusica();  
     this.playPause = faPause   
   }
-
   iniciarPausarMusica(){
     if(this.playPause == faPlay){
       this.playerService.iniciarMusica();   
